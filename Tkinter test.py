@@ -63,22 +63,32 @@ def mostrar():
     Investing()
     lbl.configure(text=c["BTC"])
     fecha.configure(text=time.strftime("%H:%M:%S"))
+
+
 def mostrar1():
     Investing()
     lbl1.configure(text=c["ETH"])
     fecha1.configure(text=time.strftime("%H:%M:%S"))
+
+
 def mostrar2():
     Investing()
     lbl2.configure(text=c["USDT"])
     fecha2.configure(text=time.strftime("%H:%M:%S"))
+
+
 def mostrar3():
     Investing()
     lbl3.configure(text=c["BNB"])
     fecha3.configure(text=time.strftime("%H:%M:%S"))
+
+
 def mostrar4():
     Investing()
     lbl4.configure(text=c["ADA"])
     fecha4.configure(text=time.strftime("%H:%M:%S"))
+
+
 def monedero():
     Investing()
     valor_cripto = c["BTC"].replace(".", "")
@@ -87,9 +97,11 @@ def monedero():
     valor_monedero = valor_monedero / float(valor_cripto)
     Output.configure(text=valor_monedero)
 
+
 #main
 Investing()
 window = Tk()
+
 
 #Ajustes
 window.geometry('350x200')
@@ -97,56 +109,54 @@ window.title("Criptomonedas")
 tab_control = ttk.Notebook(window)
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
-
 tab_control.add(tab1, text='Valores')
-
 tab_control.add(tab2, text='Calculadora')
 
 #Botones
-btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar)
+btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar,width=10)
 btn.grid(column=0, row=0)
-lbl = Label(tab1, bg="green", fg="black")
+lbl = Label(tab1, bg="green", fg="black",width=10)
 lbl.grid(column=1, row=0)
-fecha = Label(tab1, bg="pink", fg="black")
+fecha = Label(tab1, bg="pink", fg="black",width=10)
 fecha.grid(column=2, row=0)
 
-btn = Button(tab1, text="ETH", bg="green", fg="black", command=mostrar1)
+btn = Button(tab1, text="ETH", bg="green", fg="black", command=mostrar1,width=10)
 btn.grid(column=0, row=1)
-lbl1 = Label(tab1, bg="green", fg="black")
+lbl1 = Label(tab1, bg="green", fg="black",width=10)
 lbl1.grid(column=1, row=1)
-fecha1 = Label(tab1, bg="pink", fg="black")
+fecha1 = Label(tab1, bg="pink", fg="black",width=10)
 fecha1.grid(column=2, row=1)
 
-btn = Button(tab1, text="USDT", bg="green", fg="black", command=mostrar2)
+btn = Button(tab1, text="USDT", bg="green", fg="black", command=mostrar2,width=10)
 btn.grid(column=0, row=2)
-lbl2 = Label(tab1, bg="green", fg="black")
+lbl2 = Label(tab1, bg="green", fg="black",width=10)
 lbl2.grid(column=1, row=2)
-fecha2 = Label(tab1, bg="pink", fg="black")
+fecha2 = Label(tab1, bg="pink", fg="black",width=10)
 fecha2.grid(column=2, row=2)
 
-btn = Button(tab1, text="BNB", bg="green", fg="black", command=mostrar3)
+btn = Button(tab1, text="BNB", bg="green", fg="black", command=mostrar3,width=10)
 btn.grid(column=0, row=3)
-lbl3 = Label(tab1, bg="green", fg="black")
+lbl3 = Label(tab1, bg="green", fg="black",width=10)
 lbl3.grid(column=1, row=3)
-fecha3 = Label(tab1, bg="pink", fg="black")
+fecha3 = Label(tab1, bg="pink", fg="black",width=10)
 fecha3.grid(column=2, row=3)
 
-btn = Button(tab1, text="ADA", bg="green", fg="black", command=mostrar4)
+btn = Button(tab1, text="ADA", bg="green", fg="black", command=mostrar4,width=10)
 btn.grid(column=0, row=4)
-lbl4 = Label(tab1, bg="green", fg="black")
+lbl4 = Label(tab1, bg="green", fg="black",width=10)
 lbl4.grid(column=1, row=4)
-fecha4 = Label(tab1, bg="pink", fg="black")
+fecha4 = Label(tab1, bg="pink", fg="black",width=10)
 fecha4.grid(column=2, row=4)
 
-Monedero = Label(tab2, text="Monedero" , bg="pink" , fg="black")
+Monedero = Label(tab2, text="Monedero" , bg="pink" , fg="black",width=10)
 Monedero.grid(column=0, row=0)
-Resultado = Label(tab2, text="Resultado" , bg="pink" , fg="black")
+Resultado = Label(tab2, text="Resultado" , bg="pink" , fg="black",width=10)
 Resultado.grid(column=0, row=1)
 Input = Entry(tab2, width=10)
 Input.grid(column=1,row=0)
 Output = Label(tab2,bg="red", fg="black")
 Output.grid(column=1,row=1)
-Calcular = Button(tab2, text="Calcular", command=monedero)
+Calcular = Button(tab2, text="Calcular", command=monedero,width=10)
 Calcular.grid(column=2, row=0)
 
 
