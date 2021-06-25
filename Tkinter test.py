@@ -6,8 +6,9 @@ import json
 import time
 from tkinter import *
 from tkinter import ttk
+
 from datetime import datetime
-now = datetime.now()
+
 # bs4 es la libreria para sacar los datos de htmls y xml
 from bs4 import BeautifulSoup
 
@@ -89,9 +90,14 @@ def mostrar4():
     fecha4.configure(text=time.strftime("%H:%M:%S"))
 
 
+def display_selected(choice):
+    choice = variable.get()
+
+
 def monedero():
     Investing()
-    valor_cripto = c["BTC"].replace(".", "")
+    print(variable.get())
+    valor_cripto = c[variable.get()].replace(".", "")
     valor_cripto = valor_cripto.replace(",", ".")
     valor_monedero = float(Input.get())
     valor_monedero = valor_monedero / float(valor_cripto)
@@ -99,7 +105,6 @@ def monedero():
 
 
 #main
-Investing()
 window = Tk()
 
 
@@ -112,8 +117,9 @@ tab2 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores')
 tab_control.add(tab2, text='Calculadora')
 
-#Botones
-btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar,width=10)
+
+# Pestaña 1
+btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar, width=10)
 btn.grid(column=0, row=0)
 lbl = Label(tab1, bg="green", fg="black",width=10)
 lbl.grid(column=1, row=0)
@@ -148,6 +154,7 @@ lbl4.grid(column=1, row=4)
 fecha4 = Label(tab1, bg="pink", fg="black",width=10)
 fecha4.grid(column=2, row=4)
 
+# Pestaña 2
 Monedero = Label(tab2, text="Monedero" , bg="pink" , fg="black",width=10)
 Monedero.grid(column=0, row=0)
 Resultado = Label(tab2, text="Resultado" , bg="pink" , fg="black",width=10)
@@ -157,8 +164,18 @@ Input.grid(column=1,row=0)
 Output = Label(tab2,bg="red", fg="black")
 Output.grid(column=1,row=1)
 Calcular = Button(tab2, text="Calcular", command=monedero,width=10)
-Calcular.grid(column=2, row=0)
+Calcular.grid(column=3, row=0)
 
+simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
+variable=StringVar()
+variable.set(simbolos[4])
+dropdown=OptionMenu(
+    window,
+    variable,
+    *simbolos,
+    command=display_selected
+)
+dropdown.pack(expand=True)
 
 tab_control.pack(expand=1, fill='both')
 window.mainloop()
