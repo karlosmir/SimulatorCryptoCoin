@@ -4,6 +4,7 @@
 # Json para almacenar e intercambiar datos
 import json
 import time
+import tkinter
 from tkinter import *
 from tkinter import ttk
 
@@ -95,13 +96,17 @@ def display_selected(choice):
 
 
 def monedero():
+
     Investing()
-    print(variable.get())
-    valor_cripto = c[variable.get()].replace(".", "")
+    simbolo = variable.get()
+    valor_cripto = c[simbolo].replace(".", "")
     valor_cripto = valor_cripto.replace(",", ".")
     valor_monedero = float(Input.get())
+
+    listBox.insert(tkinter.END,simbolo,valor_monedero, valor_cripto,time.strftime("%H:%M:%S"))
     valor_monedero = valor_monedero / float(valor_cripto)
     Output.configure(text=valor_monedero)
+
 
 
 #main
@@ -114,9 +119,29 @@ window.title("Criptomonedas")
 tab_control = ttk.Notebook(window)
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
+tab3 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores')
 tab_control.add(tab2, text='Calculadora')
+tab_control.add(tab3, text='Historial')
 
+listBox = Listbox(tab3)
+listBox.pack()
+listProcesos = []
+i=1
+for i in [10]:
+    listProcesos += [[i, '', '', '', '']]
+
+
+simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
+variable=StringVar()
+variable.set(simbolos[4])
+dropdown=OptionMenu(
+    window,
+    variable,
+    *simbolos,
+    command=display_selected
+)
+dropdown.pack(expand=True)
 
 # Pestaña 1
 btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar, width=10)
@@ -161,21 +186,14 @@ Resultado = Label(tab2, text="Resultado" , bg="pink" , fg="black",width=10)
 Resultado.grid(column=0, row=1)
 Input = Entry(tab2, width=10)
 Input.grid(column=1,row=0)
-Output = Label(tab2,bg="red", fg="black")
+Output = Label(tab2,bg="white", fg="black")
 Output.grid(column=1,row=1)
 Calcular = Button(tab2, text="Calcular", command=monedero,width=10)
 Calcular.grid(column=3, row=0)
 
-simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
-variable=StringVar()
-variable.set(simbolos[4])
-dropdown=OptionMenu(
-    window,
-    variable,
-    *simbolos,
-    command=display_selected
-)
-dropdown.pack(expand=True)
+# Pestaña 3
+
+
 
 tab_control.pack(expand=1, fill='both')
 window.mainloop()
