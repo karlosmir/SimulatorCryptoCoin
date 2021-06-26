@@ -93,6 +93,7 @@ def mostrar4():
 
 def display_selected(choice):
     choice = variable.get()
+    Simbolo_C.configure(text=choice)
 
 
 def monedero():
@@ -107,14 +108,22 @@ def monedero():
 
     Output.configure(text=cantidad_cripto)
 
+def vender():
+    Investing()
+    cantidad_moneda= float(Inputv.get())
+    simbolo = variable.get()
+    valor_cripto = c[simbolo].replace(".", "")
+    valor_cripto = valor_cripto.replace(",", ".")
+    total =  float(valor_cripto) * cantidad_moneda
 
+    Output2.configure(text=total)
 
 #main
 window = Tk()
 
 
 #Ajustes
-window.geometry('350x200')
+window.geometry('700x400')
 window.title("Criptomonedas")
 tab_control = ttk.Notebook(window)
 tab1 = ttk.Frame(tab_control)
@@ -122,7 +131,7 @@ tab2 = ttk.Frame(tab_control)
 tab3 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores')
 tab_control.add(tab2, text='Procesos')
-tab_control.add(tab3, text='Historial')
+tab_control.add(tab3, text='Historial de Compras')
 
 listBox = Listbox(tab3)
 listBox.pack()
@@ -141,7 +150,7 @@ dropdown=OptionMenu(
     *simbolos,
     command=display_selected
 )
-dropdown.pack(expand=True)
+dropdown.pack(expand=False)
 
 # Pestaña 1
 btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar, width=10)
@@ -188,8 +197,10 @@ Input = Entry(tab2, width=10)
 Input.grid(column=1,row=0)
 Output = Label(tab2,bg="white", fg="black")
 Output.grid(column=1,row=1)
+Valor = Label(tab2, text="$", bg="white", fg="black", width=10)
+Valor.grid(column=3,row=0)
 Calcular = Button(tab2, text="Invertir", command=monedero,width=10)
-Calcular.grid(column=3, row=0)
+Calcular.grid(column=3, row=1)
 
 Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=10)
 Vender.grid(column=0, row=2)
@@ -199,8 +210,11 @@ Resultado2 = Label(tab2, text="Result Venta" , bg="pink" , fg="black",width=10)
 Resultado2.grid(column=0, row=3)
 Output2 = Label(tab2,bg="white", fg="black")
 Output2.grid(column=1,row=3)
+Simbolo_C = Label(tab2, text=variable.get(), bg="white", fg="black", width=10)
+Simbolo_C.grid(column=3, row=2)
 CalcularV = Button(tab2, text="Vender", command=vender,width=10)
-CalcularV.grid(column=3, row=2)
+CalcularV.grid(column=3, row=3)
+
 
 
 
