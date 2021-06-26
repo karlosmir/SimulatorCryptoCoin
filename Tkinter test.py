@@ -7,6 +7,8 @@ import time
 import tkinter
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk
+
 
 from datetime import datetime
 
@@ -105,7 +107,8 @@ def monedero():
     valor_monedero = float(Input.get())
     cantidad_cripto = valor_monedero / float(valor_cripto)
     listBox.insert(tkinter.END,simbolo,cantidad_cripto, valor_cripto,time.strftime("%H:%M:%S"))
-
+    #procesos = [str(cantidad_cripto)]
+    #lista_desplegable.set()
     Output.configure(text=cantidad_cripto)
 
 def vender():
@@ -132,6 +135,11 @@ tab3 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores')
 tab_control.add(tab2, text='Procesos')
 tab_control.add(tab3, text='Historial de Compras')
+
+lista_desplegable = ttk.Combobox(tab2,width=20)
+lista_desplegable.place(x=300,y=0)
+procesos = "Compras"
+lista_desplegable['values']= procesos
 
 listBox = Listbox(tab3)
 listBox.pack()
@@ -214,6 +222,9 @@ Simbolo_C = Label(tab2, text=variable.get(), bg="white", fg="black", width=10)
 Simbolo_C.grid(column=3, row=2)
 CalcularV = Button(tab2, text="Vender", command=vender,width=10)
 CalcularV.grid(column=3, row=3)
+
+
+
 
 
 
