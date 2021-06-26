@@ -102,10 +102,10 @@ def monedero():
     valor_cripto = c[simbolo].replace(".", "")
     valor_cripto = valor_cripto.replace(",", ".")
     valor_monedero = float(Input.get())
+    cantidad_cripto = valor_monedero / float(valor_cripto)
+    listBox.insert(tkinter.END,simbolo,cantidad_cripto, valor_cripto,time.strftime("%H:%M:%S"))
 
-    listBox.insert(tkinter.END,simbolo,valor_monedero, valor_cripto,time.strftime("%H:%M:%S"))
-    valor_monedero = valor_monedero / float(valor_cripto)
-    Output.configure(text=valor_monedero)
+    Output.configure(text=cantidad_cripto)
 
 
 
@@ -121,7 +121,7 @@ tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
 tab3 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores')
-tab_control.add(tab2, text='Calculadora')
+tab_control.add(tab2, text='Procesos')
 tab_control.add(tab3, text='Historial')
 
 listBox = Listbox(tab3)
@@ -131,7 +131,7 @@ i=1
 for i in [10]:
     listProcesos += [[i, '', '', '', '']]
 
-
+# Pestaña 3
 simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
 variable=StringVar()
 variable.set(simbolos[4])
@@ -180,18 +180,27 @@ fecha4 = Label(tab1, bg="pink", fg="black",width=10)
 fecha4.grid(column=2, row=4)
 
 # Pestaña 2
-Monedero = Label(tab2, text="Monedero" , bg="pink" , fg="black",width=10)
+Monedero = Label(tab2, text="Inversion" , bg="pink" , fg="black",width=10)
 Monedero.grid(column=0, row=0)
-Resultado = Label(tab2, text="Resultado" , bg="pink" , fg="black",width=10)
+Resultado = Label(tab2, text="Result Cripto" , bg="pink" , fg="black",width=10)
 Resultado.grid(column=0, row=1)
 Input = Entry(tab2, width=10)
 Input.grid(column=1,row=0)
 Output = Label(tab2,bg="white", fg="black")
 Output.grid(column=1,row=1)
-Calcular = Button(tab2, text="Calcular", command=monedero,width=10)
+Calcular = Button(tab2, text="Invertir", command=monedero,width=10)
 Calcular.grid(column=3, row=0)
 
-# Pestaña 3
+Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=10)
+Vender.grid(column=0, row=2)
+Inputv = Entry(tab2, width=10)
+Inputv.grid(column=1,row=2)
+Resultado2 = Label(tab2, text="Result Venta" , bg="pink" , fg="black",width=10)
+Resultado2.grid(column=0, row=3)
+Output2 = Label(tab2,bg="white", fg="black")
+Output2.grid(column=1,row=3)
+CalcularV = Button(tab2, text="Vender", command=vender,width=10)
+CalcularV.grid(column=3, row=2)
 
 
 
