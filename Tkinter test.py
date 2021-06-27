@@ -100,6 +100,7 @@ def display_selected(choice):
 
 def monedero():
 
+    global procesos
     Investing()
     simbolo = variable.get()
     valor_cripto = c[simbolo].replace(".", "")
@@ -107,8 +108,9 @@ def monedero():
     valor_monedero = float(Input.get())
     cantidad_cripto = valor_monedero / float(valor_cripto)
     listBox.insert(tkinter.END,simbolo,cantidad_cripto, valor_cripto,time.strftime("%H:%M:%S"))
-    #procesos = [str(cantidad_cripto)]
-    #lista_desplegable.set()
+
+    procesos = procesos + [str(cantidad_cripto)]
+    lista_desplegable['values'] = (procesos)
     Output.configure(text=cantidad_cripto)
 
 def vender():
@@ -117,9 +119,12 @@ def vender():
     simbolo = variable.get()
     valor_cripto = c[simbolo].replace(".", "")
     valor_cripto = valor_cripto.replace(",", ".")
-    total =  float(valor_cripto) * cantidad_moneda
+    total =float(valor_cripto) * cantidad_moneda
 
     Output2.configure(text=total)
+
+def Limpiar():
+    lista_desplegable['values'] = ()
 
 #main
 window = Tk()
@@ -136,10 +141,10 @@ tab_control.add(tab1, text='Valores')
 tab_control.add(tab2, text='Procesos')
 tab_control.add(tab3, text='Historial de Compras')
 
+procesos = ['Compras']
 lista_desplegable = ttk.Combobox(tab2,width=20)
-lista_desplegable.place(x=300,y=0)
-procesos = "Compras"
-lista_desplegable['values']= procesos
+lista_desplegable.place(x=325,y=0)
+lista_desplegable['values']= ()
 
 listBox = Listbox(tab3)
 listBox.pack()
@@ -197,11 +202,11 @@ fecha4 = Label(tab1, bg="pink", fg="black",width=10)
 fecha4.grid(column=2, row=4)
 
 # Pestaña 2
-Monedero = Label(tab2, text="Inversion" , bg="pink" , fg="black",width=10)
+Monedero = Label(tab2, text="Inversion" , bg="pink" , fg="black",width=18)
 Monedero.grid(column=0, row=0)
-Resultado = Label(tab2, text="Result Cripto" , bg="pink" , fg="black",width=10)
+Resultado = Label(tab2, text="Resultado Cripto", bg="pink", fg="black",width=18)
 Resultado.grid(column=0, row=1)
-Input = Entry(tab2, width=10)
+Input = Entry(tab2, width=18)
 Input.grid(column=1,row=0)
 Output = Label(tab2,bg="white", fg="black")
 Output.grid(column=1,row=1)
@@ -209,12 +214,11 @@ Valor = Label(tab2, text="$", bg="white", fg="black", width=10)
 Valor.grid(column=3,row=0)
 Calcular = Button(tab2, text="Invertir", command=monedero,width=10)
 Calcular.grid(column=3, row=1)
-
-Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=10)
+Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=18)
 Vender.grid(column=0, row=2)
-Inputv = Entry(tab2, width=10)
+Inputv = Entry(tab2, width=18)
 Inputv.grid(column=1,row=2)
-Resultado2 = Label(tab2, text="Result Venta" , bg="pink" , fg="black",width=10)
+Resultado2 = Label(tab2, text="Resultado Venta" , bg="pink" , fg="black",width=18)
 Resultado2.grid(column=0, row=3)
 Output2 = Label(tab2,bg="white", fg="black")
 Output2.grid(column=1,row=3)
@@ -222,8 +226,8 @@ Simbolo_C = Label(tab2, text=variable.get(), bg="white", fg="black", width=10)
 Simbolo_C.grid(column=3, row=2)
 CalcularV = Button(tab2, text="Vender", command=vender,width=10)
 CalcularV.grid(column=3, row=3)
-
-
+Limpiar = Button(tab2, text="Limpiar", command=Limpiar, width=18)
+Limpiar.grid(column=4, row=1)
 
 
 
