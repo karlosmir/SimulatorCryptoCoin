@@ -107,9 +107,9 @@ def monedero():
     valor_cripto = valor_cripto.replace(",", ".")
     valor_monedero = float(Input.get())
     cantidad_cripto = valor_monedero / float(valor_cripto)
-    listBox.insert(tkinter.END,simbolo,cantidad_cripto, valor_cripto,time.strftime("%H:%M:%S"))
+    listBox.insert(tkinter.END,  simbolo ,str(cantidad_cripto) , str(valor_monedero) + " - inversion" ,valor_cripto + " - valor cripto",time.strftime("%H:%M:%S"))
 
-    procesos = procesos + [str(cantidad_cripto)]
+    procesos = procesos + [str(cantidad_cripto) + " " + simbolo]
     lista_desplegable['values'] = (procesos)
     Output.configure(text=cantidad_cripto)
 
@@ -133,25 +133,26 @@ window = Tk()
 #Ajustes
 window.geometry('700x400')
 window.title("Criptomonedas")
-tab_control = ttk.Notebook(window)
+tab_control = ttk.Notebook(window )
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
 tab3 = ttk.Frame(tab_control)
-tab_control.add(tab1, text='Valores')
+tab_control.add(tab1, text='Valores' )
 tab_control.add(tab2, text='Procesos')
 tab_control.add(tab3, text='Historial de Compras')
+
 
 procesos = ['Compras']
 lista_desplegable = ttk.Combobox(tab2,width=20)
 lista_desplegable.place(x=325,y=0)
 lista_desplegable['values']= ()
 
-listBox = Listbox(tab3)
-listBox.pack()
+listBox = Listbox(tab3, width=50, height=30)
+listBox.pack(side="left", fill="both",expand=False)
 listProcesos = []
 i=1
 for i in [10]:
-    listProcesos += [[i, '', '', '', '']]
+    listProcesos += [[i, '', '', '', '', '']]
 
 # Pestaña 3
 simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
@@ -163,70 +164,71 @@ dropdown=OptionMenu(
     *simbolos,
     command=display_selected
 )
+
 dropdown.pack(expand=False)
 
 # Pestaña 1
-btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar, width=10)
+btn = Button(tab1, text="BTC", bg="green", fg="black", command=mostrar, width=10 , font='Helvetica 9 bold')
 btn.grid(column=0, row=0)
-lbl = Label(tab1, bg="green", fg="black",width=10)
+lbl = Label(tab1, bg="green", fg="black",width=10 , font='Helvetica 9 bold')
 lbl.grid(column=1, row=0)
-fecha = Label(tab1, bg="pink", fg="black",width=10)
+fecha = Label(tab1, bg="pink", fg="black",width=10, font='Helvetica 9 bold')
 fecha.grid(column=2, row=0)
 
-btn = Button(tab1, text="ETH", bg="green", fg="black", command=mostrar1,width=10)
+btn = Button(tab1, text="ETH", bg="green", fg="black", command=mostrar1,width=10, font='Helvetica 9 bold')
 btn.grid(column=0, row=1)
-lbl1 = Label(tab1, bg="green", fg="black",width=10)
+lbl1 = Label(tab1, bg="green", fg="black",width=10, font='Helvetica 9 bold')
 lbl1.grid(column=1, row=1)
-fecha1 = Label(tab1, bg="pink", fg="black",width=10)
+fecha1 = Label(tab1, bg="pink", fg="black",width=10, font='Helvetica 9 bold')
 fecha1.grid(column=2, row=1)
 
-btn = Button(tab1, text="USDT", bg="green", fg="black", command=mostrar2,width=10)
+btn = Button(tab1, text="USDT", bg="green", fg="black", command=mostrar2,width=10, font='Helvetica 9 bold')
 btn.grid(column=0, row=2)
-lbl2 = Label(tab1, bg="green", fg="black",width=10)
+lbl2 = Label(tab1, bg="green", fg="black",width=10, font='Helvetica 9 bold')
 lbl2.grid(column=1, row=2)
-fecha2 = Label(tab1, bg="pink", fg="black",width=10)
+fecha2 = Label(tab1, bg="pink", fg="black",width=10, font='Helvetica 9 bold')
 fecha2.grid(column=2, row=2)
 
-btn = Button(tab1, text="BNB", bg="green", fg="black", command=mostrar3,width=10)
+btn = Button(tab1, text="BNB", bg="green", fg="black", command=mostrar3,width=10, font='Helvetica 9 bold')
 btn.grid(column=0, row=3)
-lbl3 = Label(tab1, bg="green", fg="black",width=10)
+lbl3 = Label(tab1, bg="green", fg="black",width=10, font='Helvetica 9 bold')
 lbl3.grid(column=1, row=3)
-fecha3 = Label(tab1, bg="pink", fg="black",width=10)
+fecha3 = Label(tab1, bg="pink", fg="black",width=10, font='Helvetica 9 bold')
 fecha3.grid(column=2, row=3)
 
-btn = Button(tab1, text="ADA", bg="green", fg="black", command=mostrar4,width=10)
+btn = Button(tab1, text="ADA", bg="green", fg="black", command=mostrar4,width=10, font='Helvetica 9 bold')
 btn.grid(column=0, row=4)
-lbl4 = Label(tab1, bg="green", fg="black",width=10)
+lbl4 = Label(tab1, bg="green", fg="black",width=10, font='Helvetica 9 bold')
 lbl4.grid(column=1, row=4)
-fecha4 = Label(tab1, bg="pink", fg="black",width=10)
+fecha4 = Label(tab1, bg="pink", fg="black",width=10, font='Helvetica 9 bold')
 fecha4.grid(column=2, row=4)
 
 # Pestaña 2
-Monedero = Label(tab2, text="Inversion" , bg="pink" , fg="black",width=18)
+Monedero = Label(tab2, text="Inversion" , bg="pink" , fg="black",width=18 , font='Helvetica 9 bold')
 Monedero.grid(column=0, row=0)
-Resultado = Label(tab2, text="Resultado Cripto", bg="pink", fg="black",width=18)
+Resultado = Label(tab2, text="Resultado Cripto", bg="pink", fg="black",width=18, font='Helvetica 9 bold')
 Resultado.grid(column=0, row=1)
 Input = Entry(tab2, width=18)
 Input.grid(column=1,row=0)
-Output = Label(tab2,bg="white", fg="black")
+Output = Label(tab2,bg="white", fg="black", font='Helvetica 9 bold')
 Output.grid(column=1,row=1)
-Valor = Label(tab2, text="$", bg="white", fg="black", width=10)
+Valor = Label(tab2, text="$", bg="white", fg="black", width=10, font='Helvetica 9 bold')
 Valor.grid(column=3,row=0)
-Calcular = Button(tab2, text="Invertir", command=monedero,width=10)
+Calcular = Button(tab2, text="Invertir", command=monedero,width=10, font='Helvetica 9 bold')
 Calcular.grid(column=3, row=1)
-Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=18)
+Vender = Label(tab2, text="Vender", bg="pink", fg="black", width=18, font='Helvetica 9 bold')
 Vender.grid(column=0, row=2)
 Inputv = Entry(tab2, width=18)
 Inputv.grid(column=1,row=2)
-Resultado2 = Label(tab2, text="Resultado Venta" , bg="pink" , fg="black",width=18)
+Resultado2 = Label(tab2, text="Resultado Venta" , bg="pink" , fg="black",width=18, font='Helvetica 9 bold')
 Resultado2.grid(column=0, row=3)
 Output2 = Label(tab2,bg="white", fg="black")
 Output2.grid(column=1,row=3)
-Simbolo_C = Label(tab2, text=variable.get(), bg="white", fg="black", width=10)
+Simbolo_C = Label(tab2, text=variable.get(), bg="white", fg="black", width=10, font='Helvetica 9 bold')
 Simbolo_C.grid(column=3, row=2)
-CalcularV = Button(tab2, text="Vender", command=vender,width=10)
+CalcularV = Button(tab2, text="Vender", command=vender,width=10, font='Helvetica 9 bold')
 CalcularV.grid(column=3, row=3)
-Limpiar = Button(tab2, text="Limpiar", command=Limpiar, width=18)
+Limpiar = Button(tab2, text="Limpiar", command=Limpiar, width=18, font='Helvetica 9 bold')
 Limpiar.grid(column=4, row=1)
 
 
