@@ -76,30 +76,25 @@ def Investing():
     valor_ada = "{:.2f}".format(float(valor_ada) / EURO)
     c["ADA"] = valor_ada
 
-
 def mostrar():
     Investing()
     lbl.configure(text=c["BTC"])
     fecha.configure(text=time.strftime("%H:%M:%S"))
-
 
 def mostrar1():
     Investing()
     lbl1.configure(text=c["ETH"])
     fecha1.configure(text=time.strftime("%H:%M:%S"))
 
-
 def mostrar2():
     Investing()
     lbl2.configure(text=c["USDT"])
     fecha2.configure(text=time.strftime("%H:%M:%S"))
 
-
 def mostrar3():
     Investing()
     lbl3.configure(text=c["BNB"])
     fecha3.configure(text=time.strftime("%H:%M:%S"))
-
 
 def mostrar4():
     Investing()
@@ -117,11 +112,16 @@ def display_selected(choice):
     choice = variable.get()
     Simbolo_C.configure(text=choice)
 
-
 def monedero():
-
-
     global procesos
+    global fila
+    global id
+    cell = int(0)
+    wb_m = openpyxl.load_workbook(('Tkinter.xlsx'))
+    hoja_m = wb_m.active
+    cell = hoja_m['A%d' % fila]
+    cond = True
+
     Investing()
     simbolo = variable.get()
     valor_cripto = c[simbolo]
@@ -131,11 +131,27 @@ def monedero():
     cantidad_cripto = "{:.14f}".format(cantidad_cripto)
     listBox.insert(tkinter.END,  simbolo ,str(cantidad_cripto) , str(valor_monedero) + " - inversion €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
 
-    hoja.write(row_e,column_e + 5, 'prueba' )
+    while (cond):
+        if cell.value is None:
+            hoja_m['A%d' % (fila)] = id
+            hoja_m['B%d' % (fila)] = simbolo
+            hoja_m['C%d' % (fila)] = valor_cripto
+            hoja_m['D%d' % (fila)] = valor_monedero
+            hoja_m['E%d' % (fila)] = cantidad_cripto
+            hoja_m['F%d' % (fila)] = time.strftime("%b %d %Y %H:%M:%S")
+            id = id + 1
+            fila + 1
+            cond = False
+
+        else:
+            id = hoja_m['A%d' % (fila)].value + 1
+            fila = fila + 1
+            cell = hoja_m['A%d' % fila]
+
+    wb_m.save('Tkinter.xlsx')
     procesos = procesos + [str(cantidad_cripto) + " " + simbolo]
     lista_desplegable['values'] = (procesos)
     Output.configure(text=cantidad_cripto)
-
 
 def vender():
     global procesos2
@@ -156,12 +172,12 @@ def Limpiar():
     lista_desplegable['values'] = ()
 
 # MAIN
-
 window = Tk()
 EURO = 1.19
 wb = openpyxl.load_workbook(('Tkinter.xlsx'))
 from openpyxl.styles import Font
 hoja = wb.active
+
 hoja['A1'].font = Font(size=10, bold=True)
 hoja['B1'].font = Font(size=10, bold=True)
 hoja['C1'].font = Font(size=10, bold=True)
@@ -176,9 +192,10 @@ hoja['D1'] = "INVERSION"
 hoja['E1'] = "CANTIDAD"
 hoja['F1'] = "FECHA"
 
+fila = 2
+id = 1
 
 wb.save('Tkinter.xlsx')
-
 
 #Ajustes
 window.geometry('700x400')
@@ -189,7 +206,7 @@ tab2 = ttk.Frame(tab_control)
 tab3 = ttk.Frame(tab_control)
 tab4 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='Valores' )
-tab_control.add(tab2, text='Procesos')
+tab_control.add(tab2, text='Transacciones')
 tab_control.add(tab3, text='Historial de Compras')
 tab_control.add(tab4, text='Historial de Ventas')
 
@@ -203,7 +220,6 @@ procesos2 = ['Ventas']
 lista_desplegable2 = ttk.Combobox(tab2,width=25)
 lista_desplegable2.place(x=330,y=25)
 lista_desplegable2['values']= ()
-
 
 #Pestaña 3
 listBox = Listbox(tab3, width=50, height=30)
@@ -221,8 +237,6 @@ j=1
 for j in [10]:
     listProcesos2 += [[i, '', '', '', '', '']]
 
-
-
 # Windows general
 simbolos = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
 variable=StringVar()
@@ -233,7 +247,6 @@ dropdown=OptionMenu(
     *simbolos,
     command=display_selected
 )
-
 dropdown.pack(expand=False)
 
 # Pestaña 1
@@ -301,10 +314,6 @@ CalcularV = Button(tab2, text="Vender", command=vender,width=10, font='Helvetica
 CalcularV.grid(column=3, row=3)
 Limpiar = Button(tab2, text="Limpiar", command=Limpiar, width=18, font='Helvetica 9 bold')
 Limpiar.grid(column=4, row=3)
-
-
-
-
 
 tab_control.pack(expand=1, fill='both')
 window.mainloop()
