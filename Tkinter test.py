@@ -4,10 +4,13 @@
 # Json para almacenar e intercambiar datos
 import json
 import time
+#widget
 import tkinter
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+#escribir excell
+import openpyxl
 
 
 from datetime import datetime
@@ -117,6 +120,7 @@ def display_selected(choice):
 
 def monedero():
 
+
     global procesos
     Investing()
     simbolo = variable.get()
@@ -124,11 +128,14 @@ def monedero():
     valor = float(valor_cripto)
     valor_monedero = float(Input.get())
     cantidad_cripto = valor_monedero / valor
+    cantidad_cripto = "{:.14f}".format(cantidad_cripto)
     listBox.insert(tkinter.END,  simbolo ,str(cantidad_cripto) , str(valor_monedero) + " - inversion €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
 
+    hoja.write(row_e,column_e + 5, 'prueba' )
     procesos = procesos + [str(cantidad_cripto) + " " + simbolo]
     lista_desplegable['values'] = (procesos)
     Output.configure(text=cantidad_cripto)
+
 
 def vender():
     global procesos2
@@ -138,6 +145,7 @@ def vender():
     valor_cripto = c[simbolo]
     valor = float(valor_cripto)
     total =valor * cantidad_moneda
+    total = "{:.6f}".format(total)
 
     listBox2.insert(tkinter.END,  simbolo ,str(cantidad_moneda) , str(total) + " - resultado venta €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
     procesos2 = procesos2 + [str(cantidad_moneda) + " " + simbolo]
@@ -147,9 +155,30 @@ def vender():
 def Limpiar():
     lista_desplegable['values'] = ()
 
-#main
+# MAIN
+
 window = Tk()
 EURO = 1.19
+wb = openpyxl.load_workbook(('Tkinter.xlsx'))
+from openpyxl.styles import Font
+hoja = wb.active
+hoja['A1'].font = Font(size=10, bold=True)
+hoja['B1'].font = Font(size=10, bold=True)
+hoja['C1'].font = Font(size=10, bold=True)
+hoja['D1'].font = Font(size=10, bold=True)
+hoja['E1'].font = Font(size=10, bold=True)
+hoja['F1'].font = Font(size=10, bold=True)
+
+hoja['A1'] = "ID"
+hoja['B1'] = "SIMBOLO"
+hoja['C1'] = "VALOR COIN"
+hoja['D1'] = "INVERSION"
+hoja['E1'] = "CANTIDAD"
+hoja['F1'] = "FECHA"
+
+
+wb.save('Tkinter.xlsx')
+
 
 #Ajustes
 window.geometry('700x400')
