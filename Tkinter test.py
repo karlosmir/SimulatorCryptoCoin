@@ -30,51 +30,26 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 #Diccionario Global c[simbolo] = valor
 c = {}
-
+d = ['BTC', 'ETH', 'USDT', 'BNB', 'ADA']
+l = ['pid-1057391-last' , 'pid-1061443-last', 'pid-1061453-last' ,'pid-1061448-last', 'pid-1062537-last']
 #Funcion que apunta a la url de investing
 def Investing():
+    global l
+    global d
     # Nuestra url de criptomonedas que vamos a utilizar para sacar informacion
     url='https://es.investing.com/crypto/currencies'
 
     # La peticion que realizamos a la url
     content=requests.get(url,headers=headers)
     soup=BeautifulSoup(content.text,'html.parser')
-
-    # BITCOIN
-    valor_BTC=soup.find_all("a", attrs={"class":"pid-1057391-last"})[0].get_text()
-    valor_btc = valor_BTC.replace(".", "")
-    valor_btc = valor_btc.replace(",", ".")
-    valor_btc = "{:.2f}".format( float(valor_btc) / EURO)
-    c["BTC"]=valor_btc
-
-    # ETHEREUM
-    valor_ETH = soup.find_all("a", attrs={"class": "pid-1061443-last"})[0].get_text()
-    valor_eth = valor_ETH.replace(".", "")
-    valor_eth = valor_eth.replace(",", ".")
-    valor_eth = "{:.2f}".format(float(valor_eth) / EURO)
-    c["ETH"] = valor_eth
-
-
-    # TETHER
-    valor_USDT = soup.find_all("a", attrs={"class": "pid-1061453-last"})[0].get_text()
-    valor_usdt = valor_USDT.replace(".", "")
-    valor_usdt = valor_usdt.replace(",", ".")
-    valor_usdt = "{:.2f}".format(float(valor_usdt) / EURO)
-    c["USDT"] = valor_usdt
-
-    # BINANCE COI
-    valor_BNB = soup.find_all("a", attrs={"class": "pid-1061448-last"})[0].get_text()
-    valor_bnb = valor_BNB.replace(".", "")
-    valor_bnb = valor_bnb.replace(",", ".")
-    valor_bnb = "{:.2f}".format(float(valor_bnb) / EURO)
-    c["BNB"] = valor_bnb
-
-    # CARDANO
-    valor_ADA = soup.find_all("a", attrs={"class": "pid-1062537-last"})[0].get_text()
-    valor_ada = valor_ADA.replace(".", "")
-    valor_ada = valor_ada.replace(",", ".")
-    valor_ada = "{:.2f}".format(float(valor_ada) / EURO)
-    c["ADA"] = valor_ada
+    j = 0
+    for i in l:
+        valor = soup.find_all("a", attrs={"class":i})[0].get_text()
+        valor = valor.replace(".", "")
+        valor = valor.replace(",", ".")
+        valor = "{:.2f}".format(float(valor) / EURO)
+        c[d[j]]=valor
+        j = j + 1
 
 def mostrar():
     Investing()
@@ -130,6 +105,7 @@ def monedero():
     cantidad_cripto = valor_monedero / valor
     cantidad_cripto = "{:.14f}".format(cantidad_cripto)
     listBox.insert(tkinter.END,  simbolo ,str(cantidad_cripto) , str(valor_monedero) + " - inversion €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
+    listBox.insert(tkinter.END, " " )
 
     while (cond):
         if cell.value is None:
@@ -155,6 +131,14 @@ def monedero():
 
 def vender():
     global procesos2
+    global fila2
+    global id2
+
+    wb_m = openpyxl.load_workbook(('Tkinter.xlsx'))
+    hoja_m = wb_m.active
+    cell = hoja_m['I%d' % fila2]
+    cond2 = True
+
     Investing()
     cantidad_moneda= float(Inputv.get())
     simbolo = variable.get()
@@ -164,6 +148,27 @@ def vender():
     total = "{:.6f}".format(total)
 
     listBox2.insert(tkinter.END,  simbolo ,str(cantidad_moneda) , str(total) + " - resultado venta €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
+    listBox2.insert(tkinter.END, " ")
+
+    while (cond2):
+        if cell.value is None:
+            hoja_m['I%d' % (fila2)] = id2
+            hoja_m['J%d' % (fila2)] = simbolo
+            hoja_m['K%d' % (fila2)] = valor
+            hoja_m['L%d' % (fila2)] = total
+            hoja_m['M%d' % (fila2)] = cantidad_moneda
+            hoja_m['N%d' % (fila2)] = time.strftime("%b %d %Y %H:%M:%S")
+            id2 = id2 + 1
+            fila2 + 1
+            cond2 = False
+
+        else:
+            id2 = hoja_m['I%d' % (fila2)].value + 1
+            fila2 = fila2 + 1
+            cell = hoja_m['I%d' % fila2]
+
+    wb_m.save('Tkinter.xlsx')
+
     procesos2 = procesos2 + [str(cantidad_moneda) + " " + simbolo]
     lista_desplegable2['values'] = (procesos2)
     Output2.configure(text=total)
@@ -185,14 +190,30 @@ hoja['D1'].font = Font(size=10, bold=True)
 hoja['E1'].font = Font(size=10, bold=True)
 hoja['F1'].font = Font(size=10, bold=True)
 
-hoja['A1'] = "ID"
+hoja['I1'].font = Font(size=10, bold=True)
+hoja['J1'].font = Font(size=10, bold=True)
+hoja['K1'].font = Font(size=10, bold=True)
+hoja['L1'].font = Font(size=10, bold=True)
+hoja['M1'].font = Font(size=10, bold=True)
+hoja['N1'].font = Font(size=10, bold=True)
+
+hoja['A1'] = "ID COMPRA"
 hoja['B1'] = "SIMBOLO"
 hoja['C1'] = "VALOR COIN"
 hoja['D1'] = "INVERSION"
-hoja['E1'] = "CANTIDAD"
+hoja['E1'] = "CANTIDAD COIN"
 hoja['F1'] = "FECHA"
 
+hoja['I1'] = "ID VENTA"
+hoja['J1'] = "SIMBOLO"
+hoja['K1'] = "VALOR COIN"
+hoja['L1'] = "RESULTADO VENTA"
+hoja['M1'] = "CANTIDAD COIN"
+hoja['N1'] = "FECHA"
+
 fila = 2
+fila2 = 2
+id2 = 1
 id = 1
 
 wb.save('Tkinter.xlsx')
@@ -212,12 +233,12 @@ tab_control.add(tab4, text='Historial de Ventas')
 
 #Pestaña 2
 procesos = ['Compras']
-lista_desplegable = ttk.Combobox(tab2,width=25)
+lista_desplegable = ttk.Combobox(tab2,width=25, state="readonly")
 lista_desplegable.place(x=330,y=0)
 lista_desplegable['values']= ()
 
 procesos2 = ['Ventas']
-lista_desplegable2 = ttk.Combobox(tab2,width=25)
+lista_desplegable2 = ttk.Combobox(tab2,width=25,state="readonly")
 lista_desplegable2.place(x=330,y=25)
 lista_desplegable2['values']= ()
 
