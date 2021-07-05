@@ -112,6 +112,7 @@ def inversion():
     valor_monedero = float(Input.get())
     monedero = monedero - valor_monedero
     BalanceOut.configure(text=monedero)
+    hoja_m['P2'] = monedero
 
     cantidad_cripto = valor_monedero / valor
     cantidad_cripto = "{:.14f}".format(cantidad_cripto)
@@ -161,6 +162,7 @@ def vender():
     total = "{:.6f}".format(total)
 
     BalanceOut.configure(text=monedero)
+    hoja_m['P2'] = monedero
 
     listBox2.insert(tkinter.END,  simbolo ,str(cantidad_moneda) , str(total) + " - resultado venta €" ,str(valor) + " - valor moneda actual €",time.strftime("%H:%M:%S"))
     listBox2.insert(tkinter.END, " ")
@@ -194,9 +196,10 @@ def Limpiar():
 
 def Añadir():
     global monedero
-    monedero = float(InputM.get())
+    monedero = monedero + float(InputM.get())
     InputM.configure(state='disabled')
     AñadirSaldo.configure(state='disabled')
+    BalanceOut.configure(text=monedero)
 
 # MAIN
 window = Tk()
@@ -219,6 +222,8 @@ hoja['L1'].font = Font(size=10, bold=True)
 hoja['M1'].font = Font(size=10, bold=True)
 hoja['N1'].font = Font(size=10, bold=True)
 
+hoja['P1'].font = Font(size=10, bold=True)
+
 hoja['A1'] = "ID COMPRA"
 hoja['B1'] = "SIMBOLO"
 hoja['C1'] = "VALOR COIN"
@@ -232,6 +237,13 @@ hoja['K1'] = "VALOR COIN"
 hoja['L1'] = "RESULTADO VENTA"
 hoja['M1'] = "CANTIDAD COIN"
 hoja['N1'] = "FECHA"
+
+hoja['P1'] = "MONEDERO"
+celda = hoja['P2']
+if celda.value is None:
+    monedero = 0
+else:
+    monedero = hoja['P2'].value
 
 fila = 2
 fila2 = 2
@@ -365,8 +377,10 @@ Balance = Label(tab2, text="Balance" , bg="sky blue" , fg="black",width= 18, fon
 Balance.grid(column=0, row=5)
 BalanceOut = Label(tab2, bg="white", fg="black",width= 18, font='Helvetica 9 bold')
 BalanceOut.grid(column=1, row=5)
+BalanceOut.configure(text=monedero)
 InputM = Entry(tab2, width=18)
 InputM.grid(column=1,row=4)
+
 AñadirSaldo = Button(tab2, text="Añadir Saldo", command=Añadir, width=10, font='Helvetica 9 bold')
 AñadirSaldo.grid(column=2, row=4)
 
